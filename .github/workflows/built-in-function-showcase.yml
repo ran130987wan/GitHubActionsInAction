@@ -1,0 +1,47 @@
+name: Built-in Functions Demo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  builtin-functions:
+    runs-on: ubuntu-latest
+    steps:
+      # contains(search, item): returns true if 'search' contains 'item'
+      - name: contains() function
+        if: ${{ contains('Hello world', 'llo') }}
+        run: echo "✅ 'Hello world' contains 'llo'"
+
+      # startsWith(search, item): returns true if 'search' starts with 'item'
+      - name: startsWith() function
+        if: ${{ startsWith('GitHub Actions', 'GitHub') }}
+        run: echo "✅ 'GitHub Actions' starts with 'GitHub'"
+
+      # endsWith(search, item): returns true if 'search' ends with 'item'
+      - name: endsWith() function
+        if: ${{ endsWith('GitHub Actions', 'Actions') }}
+        run: echo "✅ 'GitHub Actions' ends with 'Actions'"
+
+      # format(string, v0, v1, ...): replaces placeholders with values
+      - name: format() function
+        run: echo "${{ format('Hello {0} {1} {2}', 'Mona', 'the', 'Octocat') }}"
+
+      # join(array, separator): joins array elements into a string
+      - name: join() function
+        run: echo "${{ join(fromJSON('[\"apple\", \"orange\", \"pear\"]'), ' | ') }}"
+
+      # toJSON(value): converts a value to pretty-print JSON
+      - name: toJSON() function
+        run: echo "${{ toJSON(github) }}"
+
+      # fromJSON(value): parses a JSON string into an object
+      - name: fromJSON() function
+        run: |
+          echo "Parsed JSON:"
+          echo "${{ fromJSON('{\"name\":\"apple\",\"quantity\":1}').name }}"
+          echo "${{ fromJSON('{\"name\":\"apple\",\"quantity\":1}').quantity }}"
+
+      # hashFiles(path): returns a hash of the file contents
+      - name: hashFiles() function
+        run: echo "File hash: ${{ hashFiles('README.md') }}"
+``
