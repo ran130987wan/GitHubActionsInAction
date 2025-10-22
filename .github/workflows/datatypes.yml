@@ -18,7 +18,7 @@ on:
       tags:
         description: 'Tags for the run'
         required: false
-        default: '["demo", "yaml", "actions"]'
+        default: '["demo", "yaml", "actions"]'  # This is a string, not a true array
 
 jobs:
   show-data-types:
@@ -30,7 +30,6 @@ jobs:
           echo "Is Admin: ${{ inputs.isAdmin }}"       # boolean input
           echo "Start Date: ${{ inputs.startDate }}"   # datetime string
           echo "Tags: ${{ inputs.tags }}"              # stringified list
-
       - name: Use map and sequence
         run: |
           echo "::group::Map and Sequence Example"
@@ -42,4 +41,3 @@ jobs:
           echo "  - YAML"
           echo "  - Bash"
           echo "::endgroup::"
-``
