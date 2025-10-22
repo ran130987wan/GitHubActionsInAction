@@ -1,0 +1,20 @@
+name: Output Passing Example
+
+on: [push]
+
+jobs:
+  generate-color:
+    runs-on: ubuntu-latest
+    outputs:
+      selected-color: ${{ steps.color-generator.outputs.SELECTED_COLOR }}
+    steps:
+      - name: Set color
+        id: color-generator
+        run: echo "SELECTED_COLOR=green" >> "$GITHUB_OUTPUT"
+
+  use-color:
+    needs: generate-color
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get color from previous job
+        run: echo "The selected color is ${{ needs.generate-color.outputs.selected-color }}"
