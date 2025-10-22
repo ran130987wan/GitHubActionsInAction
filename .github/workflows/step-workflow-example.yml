@@ -1,0 +1,37 @@
+name: Step Workflow Example
+
+on:
+  workflow_dispatch:  # Allows manual triggering from the Actions tab
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Project
+        run: npm run build
+
+      - name: Run Tests
+        run: npm test
+
+      - name: Clean install dependencies and build
+        run: |
+          echo "🔄 Starting clean install and build in temp directory"
+          npm install
+          npm run build
+        working-directory: ./temp
+        shell: bash
+
+      - name: Run Python Script
+        run: |
+          print("Hello from Python shell!")
+        shell: python
+
+      - name: Run Perl Script
+        run: print %ENV
+        shell: perl {0}
