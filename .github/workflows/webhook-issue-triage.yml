@@ -1,0 +1,23 @@
+name: Issue Triage
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Label issue
+        run: |
+          echo "Checking issue content..."
+          if [[ "${{ github.event.issue.body }}" == *"bug"* ]]; then
+            echo "::add-labels::bug"
+          elif [[ "${{ github.event.issue.body }}" == *"feature"* ]]; then
+            echo "::add-labels::feature"
+          else
+            echo "::add-labels::needs-triage"
+          fi
