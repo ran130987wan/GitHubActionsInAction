@@ -1,0 +1,13 @@
+name: Action Input Example
+
+on: workflow_dispatch
+
+jobs:
+  input-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set secret and var as input
+        uses: ActionsInAction/HelloWorld@v1
+        with:
+          MY_SECRET: ${{ secrets.MY_SECRET }}
+          MY_VAR: ${{ vars.MY_VAR }}
