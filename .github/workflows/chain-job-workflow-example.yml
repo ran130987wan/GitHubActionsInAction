@@ -1,36 +1,25 @@
-name: Chained Jobs Workflow
+name: Simple Chained Workflow
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # Allows manual triggering from the Actions tab
 
 jobs:
-  job_1:
+  setup:
     runs-on: ubuntu-latest
     steps:
-      - name: Step in Job 1
-        run: echo "✅ Running Job: ${{ github.job }}"
+      - name: Setup Step
+        run: echo "🔧 Setup complete"
 
-  job_2:
+  build:
     runs-on: ubuntu-latest
-    needs: job_1
+    needs: setup
     steps:
-      - name: Step in Job 2
-        run: echo "✅ Running Job: ${{ github.job }} after Job 1"
+      - name: Build Step
+        run: echo "🏗️ Build complete"
 
-  job_3:
+  test:
     runs-on: ubuntu-latest
-    needs: job_1
+    needs: build
     steps:
-      - name: Step in Job 3
-        run: echo "✅ Running Job: ${{ github.job }} after Job 1"
-
-  job_4:
-    runs-on: ubuntu-latest
-    needs:
-      - job_2
-      - job_3
-    steps:
-      - name: Final Step in Job 4
-        run: echo "✅ Running Job: ${{ github.job }} after Job 2 and Job 3"
-# Building → Testing → Deploying
-# Linting → Unit Tests → Integration Tests → Packaging
+      - name: Test Step
+        run: echo "✅ Tests passed"
