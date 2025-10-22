@@ -11,6 +11,6 @@ on:
 jobs:
   logical-and:
     runs-on: ubuntu-latest
-    if: ${{ github.actor == 'octocat' && inputs.env_name == 'dev' }}
+    if: ${{ github.actor == 'ran130987wan' && inputs.env_name == 'dev' }}
     steps:
-      - run: echo "👤 Octocat is deploying to dev"
+      - run: echo "👤 ran130987wan is deploying to dev"
