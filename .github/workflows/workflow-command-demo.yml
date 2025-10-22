@@ -21,7 +21,7 @@ jobs:
       # ::set-output - pass a value to another step (deprecated but still works)
       - name: Set output value
         id: set_output
-        run: echo "::set-output name=customMessage::Hello from step output"
+        run: echo "customMessage=Hello from step output" >> $GITHUB_OUTPUT
 
       # Use output from previous step
       - name: Use output value
