@@ -1,0 +1,41 @@
+name: Multi-Feature GitHub Actions Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  feature-demo:
+    runs-on: ubuntu-latest
+    steps:
+      # 1️⃣ Uses a published action by tag (recommended for stability)
+      - name: Checkout using tag
+        uses: actions/checkout@v3
+
+      # 2️⃣ Uses the latest commit from the main branch (less stable)
+      - name: Checkout using main branch
+        uses: actions/checkout@main
+
+      # 3️⃣ Uses a specific commit SHA for precise control
+      - name: Checkout using specific commit
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+
+      # 4️⃣ Runs a custom action defined locally in the same repo
+      - name: Run local custom action
+        uses: ./.github/actions/my-action
+
+      # 5️⃣ Passes inputs to the action
+      - name: Hello World with input
+        uses: ActionsInAction/HelloWorld@v1
+        with:
+          WhoToGreet: Mona
+
+      # 6️⃣ Sets environment variables for the step
+      - name: Hello World with environment variables
+        uses: ActionsInAction/HelloWorld@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WhoToGreet: Mona
+
+      # 7️⃣ Runs a Docker container directly as a step
+      - name: Run Alpine container
+        uses: docker://alpine:3.8
