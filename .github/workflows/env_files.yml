@@ -1,0 +1,31 @@
+name: Environment Files Demo
+on: push
+
+jobs:
+  env-file-example:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set environment variable using $GITHUB_ENV
+        run: |
+          echo "action_state=yellow" >> "$GITHUB_ENV"
+
+      - name: Access environment variable using env context
+        run: |
+          echo "The action state is: ${{ env.action_state }}"
+
+      - name: Generate output using $GITHUB_OUTPUT
+        id: generate_output
+        run: |
+          random_number=$((RANDOM))
+          echo "::add-mask::$random_number"  # Mask the output in logs
+          echo "secret_number=$random_number" >> "$GITHUB_OUTPUT"
+
+      - name: Use output from previous step
+        run: |
+          echo "The secret number is: ${{ steps.generate_output.outputs.secret_number }}"
+
+      - name: Add job summary using $GITHUB_STEP_SUMMARY
+        run: |
+          echo "### Job Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- Action state: ${{ env.action_state }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Secret number: ${{ steps.generate_output.outputs.secret_number }}" >> $GITHUB_STEP_SUMMARY
