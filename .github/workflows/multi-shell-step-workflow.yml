@@ -45,7 +45,7 @@ jobs:
 
       - name: Python Step on Windows
         run: |
-          print("🐍 Running in Python on Windows")
+          print("Running in Python on Windows")
           import os
           print("Current directory:", os.getcwd())
         shell: python
