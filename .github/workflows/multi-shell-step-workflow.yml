@@ -1,0 +1,63 @@
+name: Multi-Shell Step Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ubuntu-shells:
+    name: Ubuntu Shells
+    runs-on: ubuntu-latest
+    steps:
+      - name: Bash Step (default)
+        run: |
+          echo "🟢 Running in Bash on Ubuntu"
+          echo "Current directory: $(pwd)"
+        shell: bash
+
+      - name: PowerShell Core Step on Ubuntu
+        run: |
+          Write-Host "🟣 Running in PowerShell Core on Ubuntu"
+          Get-Location
+        shell: pwsh
+
+      - name: Python Step on Ubuntu
+        run: |
+          print("🐍 Running in Python on Ubuntu")
+          import os
+          print("Current directory:", os.getcwd())
+        shell: python
+
+  windows-shells:
+    name: Windows Shells
+    runs-on: windows-latest
+    steps:
+      - name: Bash Step on Windows
+        run: |
+          echo "🟢 Running in Bash on Windows"
+          echo "Current directory: $(pwd)"
+        shell: bash
+
+      - name: PowerShell Core Step on Windows
+        run: |
+          Write-Host "🟣 Running in PowerShell Core on Windows"
+          Get-Location
+        shell: pwsh
+
+      - name: Python Step on Windows
+        run: |
+          print("🐍 Running in Python on Windows")
+          import os
+          print("Current directory:", os.getcwd())
+        shell: python
+
+      - name: CMD Step on Windows
+        run: |
+          echo 🟡 Running in CMD
+          echo Current directory: %cd%
+        shell: cmd
+
+      - name: Classic PowerShell Step on Windows
+        run: |
+          Write-Host "🔵 Running in Classic PowerShell"
+          Get-Location
+        shell: powershell
