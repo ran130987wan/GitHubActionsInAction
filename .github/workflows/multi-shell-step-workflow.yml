@@ -58,6 +58,6 @@ jobs:
 
       - name: Classic PowerShell Step on Windows
         run: |
-          Write-Host "🔵 Running in Classic PowerShell"
+          Write-Host "Running in Classic PowerShell"
           Get-Location
         shell: powershell
