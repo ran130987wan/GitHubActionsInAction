@@ -13,6 +13,11 @@ jobs:
       matrix:
         os_version: [ubuntu-latest, macos-latest]
         node_version: [12, 14, 16]
+        exclude:
+          - os_version: macos-latest
+            node_version: 12
+          - os_version: macos-latest
+            node_version: 14
 
     steps:
       - name: Checkout code
