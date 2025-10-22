@@ -1,0 +1,78 @@
+name: All Expression Operators Demo
+
+on:
+  workflow_dispatch:
+    inputs:
+      env_name:
+        description: 'Environment name'
+        required: true
+        default: 'staging'
+      version_major:
+        description: 'Major version number'
+        required: true
+        default: '1'
+
+env:
+  RELEASE_STAGE: "beta"
+
+jobs:
+  expression-operators:
+    runs-on: ubuntu-latest
+    steps:
+      # ( ) Group logical conditions
+      - name: Group Logical Conditions
+        if: ${{ (github.ref == 'refs/heads/main') && (inputs.env_name == 'production') }}
+        run: echo "🚀 Deploying production from main branch"
+
+      # [ ] Index access
+      - name: Index Access
+        run: echo "First character of branch ref: ${{ github.ref[0] }}"
+
+      # . Property access
+      - name: Property Access
+        run: echo "Commit SHA: ${{ github.sha }}"
+
+      # ! Not operator
+      - name: Not Operator
+        if: ${{ !(inputs.env_name == 'production') }}
+        run: echo "🔒 Not deploying to production"
+
+      # < Less than
+      - name: Less Than Operator
+        if: ${{ inputs.version_major < 2 }}
+        run: echo "📦 Version is less than 2"
+
+      # <= Less than or equal
+      - name: Less Than or Equal Operator
+        if: ${{ inputs.version_major <= 2 }}
+        run: echo "📦 Version is less than or equal to 2"
+
+      # > Greater than
+      - name: Greater Than Operator
+        if: ${{ inputs.version_major > 0 }}
+        run: echo "✅ Version is greater than 0"
+
+      # >= Greater than or equal
+      - name: Greater Than or Equal Operator
+        if: ${{ inputs.version_major >= 1 }}
+        run: echo "✅ Version is 1 or higher"
+
+      # == Equality check
+      - name: Equality Check
+        if: ${{ inputs.env_name == 'staging' }}
+        run: echo "🧪 Running in staging environment"
+
+      # != Inequality check
+      - name: Inequality Check
+        if: ${{ env.RELEASE_STAGE != 'stable' }}
+        run: echo "⚠️ Release is not stable"
+
+      # && Logical AND
+      - name: Logical AND
+        if: ${{ github.actor == 'octocat' && inputs.env_name == 'dev' }}
+        run: echo "👤 Octocat is deploying to dev"
+
+      # || Logical OR
+      - name: Logical OR
+        if: ${{ inputs.env_name == 'staging' || inputs.env_name == 'qa' }}
+        run: echo "🔄 Running in staging or QA"
