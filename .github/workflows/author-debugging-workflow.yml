@@ -1,0 +1,33 @@
+name: Authoring and Debugging Demo
+
+on:
+  workflow_dispatch:  # Allows manual triggering from the UI
+
+permissions:
+  contents: read       # Required for checking out code
+  pull-requests: write # Required if you want to annotate PRs with lint results
+
+jobs:
+  lint-and-debug:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Lint all workflow files using actionlint
+      - name: Lint workflows
+        uses: devops-actions/actionlint@v0.1.2
+
+      # Step 3: Enable debug logging (optional, requires repo-level configuration)
+      # To activate, set these variables in repository settings:
+      # ACTIONS_STEP_DEBUG=true
+      # ACTIONS_RUNNER_DEBUG=true
+
+      # Step 4: Example debug step
+      - name: Debug example
+        run: |
+          echo "This is a debug step"
+          echo "Current branch: ${{ github.ref }}"
+          echo "Actor: ${{ github.actor }}"
