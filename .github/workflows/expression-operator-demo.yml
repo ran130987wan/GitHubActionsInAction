@@ -36,35 +36,4 @@ jobs:
 
       # ! Not operator
       - name: Not operator example
-        if: ${{ ! (inputs.env_name == 'production') }}
-        run: echo "🔒 Not deploying to production"
-
-      # <, <= Less than / Less than or equal
-      - name: Less than example
-        if: ${{ env.VERSION_MAJOR < 2 }}
-        run: echo "📦 Version is less than 2"
-
-      # >, >= Greater than / Greater than or equal
-      - name: Greater than example
-        if: ${{ env.VERSION_MAJOR >= 1 }}
-        run: echo "✅ Version is 1 or higher"
-
-      # == Equal
-      - name: Equal operator example
-        if: ${{ inputs.env_name == 'staging' }}
-        run: echo "🧪 Running in staging environment"
-
-      # != Not equal
-      - name: Not equal operator example
-        if: ${{ env.RELEASE_STAGE != 'stable' }}
-        run: echo "⚠️ Release is not stable"
-
-      # && And operator
-      - name: And operator example
-        if: ${{ github.actor == 'octocat' && inputs.env_name == 'dev' }}
-        run: echo "👤 Octocat is deploying to dev"
-
-      # || Or operator
-      - name: Or operator example
-        if: ${{ inputs.env_name == 'staging' || inputs.env_name == 'qa' }}
-        run: echo "🔄 Running in staging or QA"
+        if: ${{ !(inputs.env_name == 'production') }}
