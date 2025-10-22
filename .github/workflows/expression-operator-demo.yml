@@ -1,4 +1,4 @@
-name: Expression Operators Demo
+name: Expression Operators Showcase
 
 on:
   workflow_dispatch:
@@ -7,33 +7,72 @@ on:
         description: 'Environment name'
         required: true
         default: 'staging'
-      version:
-        description: 'Version number'
+      version_major:
+        description: 'Major version number'
         required: true
-        default: '1.0.0'
+        default: '1'
 
 env:
   RELEASE_STAGE: "beta"
-  VERSION_MAJOR: "1"
 
 jobs:
-  operator-demo:
+  group-logical:
+    name: Group Logical Conditions ( )
+    runs-on: ubuntu-latest
+    if: ${{ (github.ref == 'refs/heads/main') && (inputs.env_name == 'production') }}
+    steps:
+      - run: echo "🚀 Deploying production from main branch"
+
+  index-access:
+    name: Index Access [ ]
     runs-on: ubuntu-latest
     steps:
-      # ( ) Logical grouping
-      - name: Logical grouping example
-        if: ${{ (github.ref == 'refs/heads/main') && (inputs.env_name == 'production') }}
-        run: echo "🚀 Deploying production from main branch"
+      - run: echo "First character of branch ref: ${{ github.ref[0] }}"
 
-      # [ ] Index access
-      - name: Index access example
-        run: |
-          echo "First character of ref: ${{ github.ref[0] }}"
+  property-access:
+    name: Property Access .
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Commit SHA: ${{ github.sha }}"
 
-      # . Property dereference
-      - name: Property access example
-        run: echo "Commit SHA: ${{ github.sha }}"
+  not-operator:
+    name: Negate Condition !
+    runs-on: ubuntu-latest
+    if: ${{ !(inputs.env_name == 'production') }}
+    steps:
+      - run: echo "🔒 Not deploying to production"
 
-      # ! Not operator
-      - name: Not operator example
-        if: ${{ !(inputs.env_name == 'production') }}
+  less-than:
+    name: Less Than <
+    runs-on: ubuntu-latest
+    if: ${{ inputs.version_major < 2 }}
+    steps:
+      - run: echo "📦 Version is less than 2"
+
+  greater-than-equal:
+    name: Greater Than or Equal >=
+    runs-on: ubuntu-latest
+    if: ${{ inputs.version_major >= 1 }}
+    steps:
+      - run: echo "✅ Version is 1 or higher"
+
+  equality-check:
+    name: Equality Check ==
+    runs-on: ubuntu-latest
+    if: ${{ inputs.env_name == 'staging' }}
+    steps:
+      - run: echo "🧪 Running in staging environment"
+
+  inequality-check:
+    name: Inequality Check !=
+    runs-on: ubuntu-latest
+    if: ${{ env.RELEASE_STAGE != 'stable' }}
+    steps:
+      - run: echo "⚠️ Release is not stable"
+
+  logical-and:
+    name: Logical AND &&
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'octocat' && inputs.env_name == 'dev' }}
+    steps:
+      - run: echo "👤 Octocat is deploying to dev"
