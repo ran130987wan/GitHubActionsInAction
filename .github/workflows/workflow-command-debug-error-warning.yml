@@ -1,0 +1,20 @@
+name: Workflow Command Messages Demo
+
+on: workflow_dispatch
+
+jobs:
+  log-messages:
+    runs-on: ubuntu-latest
+    steps:
+      # ✅ Debug message (visible only if ACTIONS_STEP_DEBUG=true is set in repo or workflow)
+      - name: Debug message
+        run: echo "::debug::This is a debug message for troubleshooting"
+
+      # ✅ Warning message with annotation
+      - name: Warning message with file and line
+        run: echo "::warning file=app.js,line=1,col=5,endColumn=7,title=Style Warning::Missing semicolon"
+
+      # ✅ Error message with annotation
+      - name: Error message with file and line
+        run: echo "::error file=app.js,line=1,col=5,endColumn=7,title=Syntax Error::Unexpected token"
+``
