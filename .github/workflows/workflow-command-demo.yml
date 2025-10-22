@@ -23,10 +23,6 @@ jobs:
         id: set_output
         run: echo "customMessage=Hello from step output" >> $GITHUB_OUTPUT
 
-      # Use output from previous step
-      - name: Use output value
-        run: echo "Received message: ${{ steps.set_output.outputs.customMessage }}"
-
       # ::set-env - set an environment variable (deprecated, use env file instead)
       - name: Set environment variable
         run: echo "MY_ENV_VAR=Hello from env" >> $GITHUB_ENV
