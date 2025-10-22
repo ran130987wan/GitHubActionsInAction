@@ -1,0 +1,29 @@
+name: Matrix Strategy Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-node-on-os:
+    name: Node ${{ matrix.node_version }} on ${{ matrix.os_version }}
+    runs-on: ${{ matrix.os_version }}
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        os_version: [ubuntu-latest, macos-latest]
+        node_version: [12, 14, 16]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v3.6.0
+        with:
+          node-version: ${{ matrix.node_version }}
+
+      - name: Display environment info
+        run: |
+          echo "Running on OS: ${{ matrix.os_version }}"
+          echo "Using Node.js version: ${{ matrix.node_version }}"
