@@ -1,0 +1,34 @@
+name: Status Functions Demo
+
+on: workflow_dispatch
+
+jobs:
+  status-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step 1 - Simulate success
+        run: echo "✅ This step succeeds"
+
+      # success(): runs only if all previous steps succeeded
+      - name: Step 2 - Run if previous step succeeded
+        if: ${{ success() }}
+        run: echo "🎉 Previous step succeeded"
+
+      # Step 3 - Simulate failure
+      - name: Step 3 - Simulate failure
+        run: exit 1
+
+      # failure(): runs only if a previous step failed
+      - name: Step 4 - Run if previous step failed
+        if: ${{ failure() }}
+        run: echo "❌ Previous step failed"
+
+      # always(): runs regardless of success, failure, or cancellation
+      - name: Step 5 - Always run
+        if: ${{ always() }}
+        run: echo "🔁 This step runs no matter what"
+
+      # cancelled(): runs only if the workflow was cancelled
+      - name: Step 6 - Run if workflow was cancelled
+        if: ${{ cancelled() }}
+        run: echo "🚫 Workflow was cancelled"
