@@ -1,0 +1,37 @@
+# Workflow Name: Job Summary Example
+# This workflow demonstrates how to generate rich job summaries using Markdown, HTML, and the GitHub Actions Toolkit.
+
+on: push  # Trigger the workflow on every push to the repository
+
+jobs:
+  summary-demo:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+
+    steps:
+      # Step 1: Add a Markdown heading to the job summary
+      - name: Add Markdown to Summary
+        run: echo '### 🚀 Deployment Summary' >> $GITHUB_STEP_SUMMARY
+
+      # Step 2: Add a styled HTML paragraph to the job summary
+      - name: Add HTML to Summary
+        run: echo '<p><strong>Status:</strong> <span style="color:green;">Success</span></p>' >> $GITHUB_STEP_SUMMARY
+
+      # Step 3: Use GitHub Actions Toolkit to write a formatted test results table and a link
+      - name: Add Test Results Table
+        uses: actions/github-script@v6.1.0
+        with:
+          script: |
+            await core.summary
+              .addHeading('🧪 Test Results')  # Add a heading
+              .addTable([                     # Add a table with test results
+                [{data: 'Test File', header: true}, {data: 'Result', header: true}],
+                ['login.test.js', '✅ Pass'],
+                ['checkout.test.js', '❌ Fail'],
+                ['profile.test.js', '✅ Pass']
+              ])
+              .addLink('🔗 View Full Report', 'https://github.com')  # Add a link to external report
+              .write()  # Write the summary content
+
+      # Step 4: Add a closing note in Markdown
+      - name: Add Final Note
+        run: echo 'Thanks for checking the summary! 🎉' >> $GITHUB_STEP_SUMMARY
