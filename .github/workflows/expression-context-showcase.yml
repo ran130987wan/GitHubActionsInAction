@@ -1,0 +1,94 @@
+name: Expressions and Contexts Feature Showcase
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_env:  # Input context: allows manual selection of deployment environment
+        description: 'Deployment environment'
+        required: true
+        default: 'staging'
+
+env:
+  GLOBAL_ENV: "global_value"  # Global environment variable accessible in all jobs
+
+jobs:
+  github-context:
+    name: GitHub Context Example
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show GitHub Context
+        run: |
+          # Access GitHub context: branch name, commit SHA, and triggering user
+          echo "Branch: ${{ github.ref }}"
+          echo "Commit SHA: ${{ github.sha }}"
+          echo "Triggered by: ${{ github.actor }}"
+
+  runner-context:
+    name: Runner OS Example
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show Runner OS
+        run: |
+          # Access runner context: operating system of the runner
+          echo "Running on OS: ${{ runner.os }}"
+
+  env-input-context:
+    name: Env and Inputs Example
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show Environment Variables
+        run: |
+          # Access global env and workflow input values
+          echo "Global ENV: ${{ env.GLOBAL_ENV }}"
+          echo "Input ENV: ${{ inputs.deploy_env }}"
+
+  matrix-context:
+    name: Matrix Strategy Example
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]  # OS variations
+        node: [16, 18]                     # Node.js versions
+    steps:
+      - name: Show Matrix Values
+        run: |
+          # Access matrix values for OS and Node version
+          echo "OS: ${{ matrix.os }}"
+          echo "Node Version: ${{ matrix.node }}"
+
+  conditional-status:
+    name: Conditional Execution Example
+    runs-on: ubuntu-latest
+    steps:
+      - name: Simulate Success
+        run: echo "✅ This step always succeeds"
+
+      - name: Run on Success
+        if: ${{ success() }}  # Executes only if previous steps succeeded
+        run: echo "🎉 Previous step succeeded"
+
+      - name: Run on Failure
+        if: ${{ failure() }}  # Executes only if previous steps failed
+        run: echo "❌ Previous step failed"
+
+  built-in-functions:
+    name: Built-in Functions Example
+    runs-on: ubuntu-latest
+    steps:
+      - name: Format and Contains
+        run: |
+          # Use built-in functions: format, contains, startsWith, endsWith
+          echo "${{ format('Hello {0}, welcome to {1}', 'Ranjit', 'GitHub Actions') }}"
+          echo "Contains 'Actions'? ${{ contains('GitHub Actions', 'Actions') }}"
+          echo "Starts with 'GitHub'? ${{ startsWith('GitHub Actions', 'GitHub') }}"
+          echo "Ends with 'Actions'? ${{ endsWith('GitHub Actions', 'Actions') }}"
+
+  needs-context:
+    name: Needs Context Example
+    runs-on: ubuntu-latest
+    needs: github-context  # Job dependency: runs only after github-context job completes
+    steps:
+      - name: Dependent Job
+        run: |
+          # Demonstrates use of 'needs' to control job execution order
+          echo "This job runs after 'github-context' completes"
