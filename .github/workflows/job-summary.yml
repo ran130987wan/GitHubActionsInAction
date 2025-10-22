@@ -21,17 +21,16 @@ jobs:
         uses: actions/github-script@v6.1.0
         with:
           script: |
-            const core = require('@actions/core');
             await core.summary
-              .addHeading('🧪 Test Results')
-              .addTable([
+              .addHeading('🧪 Test Results')  // Add a heading
+              .addTable([                     // Add a table with test results
                 [{data: 'Test File', header: true}, {data: 'Result', header: true}],
                 ['login.test.js', '✅ Pass'],
                 ['checkout.test.js', '❌ Fail'],
                 ['profile.test.js', '✅ Pass']
               ])
-              .addLink('🔗 View Full Report', 'https://github.com')
-              .write();
+              .addLink('🔗 View Full Report', 'https://github.com')  // Add a link to external report
+              .write();  // Write the summary content
 
       # Step 4: Add a closing note in Markdown
       - name: Add Final Note
