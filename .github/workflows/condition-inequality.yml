@@ -1,13 +1,16 @@
 name: Inequality Check Example
 
-on: workflow_dispatch
-
-env:
-  RELEASE_STAGE: "beta"
+on:
+  workflow_dispatch:
+    inputs:
+      RELEASE_STAGE:
+        description: 'Release stage'
+        required: true
+        default: 'beta'
 
 jobs:
   inequality-check:
     runs-on: ubuntu-latest
-    if: ${{ env.RELEASE_STAGE != 'stable' }}
+    if: ${{ inputs.RELEASE_STAGE != 'stable' }}
     steps:
       - run: echo "⚠️ Release is not stable"
