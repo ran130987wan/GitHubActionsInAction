@@ -1,0 +1,16 @@
+name: Logical AND Operator Example
+
+on:
+  workflow_dispatch:
+    inputs:
+      env_name:
+        description: 'Environment name'
+        required: true
+        default: 'dev'
+
+jobs:
+  logical-and:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'octocat' && inputs.env_name == 'dev' }}
+    steps:
+      - run: echo "👤 Octocat is deploying to dev"
