@@ -1,0 +1,19 @@
+name: Label PR Based on File Changes
+
+# Trigger the workflow when a pull request is opened, synchronized, or reopened
+on: pull_request_target
+
+# Set explicit permissions for the GITHUB_TOKEN
+permissions:
+  contents: read           # Needed to read the repository contents
+  pull-requests: write     # Needed to apply labels to pull requests
+  # All other permissions are implicitly set to 'none'
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Use the official labeler action to apply labels based on changed files
+      - name: Run Labeler
+        uses: actions/labeler@v4
