@@ -1,0 +1,45 @@
+name: Data Types Demo
+
+on:
+  workflow_dispatch:
+    inputs:
+      age:
+        description: 'User age'
+        required: true
+        type: string
+      isAdmin:
+        description: 'Is user an admin?'
+        required: true
+        type: boolean
+      startDate:
+        description: 'Start date'
+        required: false
+        default: '2025-10-22T00:00:00Z'
+      tags:
+        description: 'Tags for the run'
+        required: false
+        default: '["demo", "yaml", "actions"]'
+
+jobs:
+  show-data-types:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show scalar types
+        run: |
+          echo "Age: ${{ inputs.age }}"               # string input
+          echo "Is Admin: ${{ inputs.isAdmin }}"       # boolean input
+          echo "Start Date: ${{ inputs.startDate }}"   # datetime string
+          echo "Tags: ${{ inputs.tags }}"              # stringified list
+
+      - name: Use map and sequence
+        run: |
+          echo "::group::Map and Sequence Example"
+          echo "User Info:"
+          echo "  name: Ranjit"
+          echo "  role: Senior Platform Engineer"
+          echo "Languages:"
+          echo "  - Python"
+          echo "  - YAML"
+          echo "  - Bash"
+          echo "::endgroup::"
+``
