@@ -32,13 +32,5 @@ jobs:
     steps:
       - name: Final Step in Job 4
         run: echo "✅ Running Job: ${{ github.job }} after Job 2 and Job 3"
-# 🔄 Execution Flow
-
-# job_1 runs first.
-# job_2 and job_3 run in parallel after job_1 completes.
-# job_4 runs after both job_2 and job_3 have finished.
-
-# This structure is useful for workflows that require sequential and parallel execution, such as:
-
 # Building → Testing → Deploying
 # Linting → Unit Tests → Integration Tests → Packaging
