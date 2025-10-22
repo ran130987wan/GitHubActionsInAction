@@ -1,0 +1,58 @@
+name: Workflow Commands Demo
+
+on: workflow_dispatch
+
+jobs:
+  workflow-commands:
+    runs-on: ubuntu-latest
+    steps:
+      # ::error - log an error message to the workflow log
+      - name: Log an error
+        run: echo "::error file=app.js,line=1::Missing semicolon"
+
+      # ::warning - log a warning message
+      - name: Log a warning
+        run: echo "::warning file=app.js,line=2::Deprecated function usage"
+
+      # ::notice - log a notice message
+      - name: Log a notice
+        run: echo "::notice file=app.js,line=3::Consider refactoring this block"
+
+      # ::set-output - pass a value to another step (deprecated but still works)
+      - name: Set output value
+        id: set_output
+        run: echo "::set-output name=customMessage::Hello from step output"
+
+      # Use output from previous step
+      - name: Use output value
+        run: echo "Received message: ${{ steps.set_output.outputs.customMessage }}"
+
+      # ::set-env - set an environment variable (deprecated, use env file instead)
+      - name: Set environment variable
+        run: echo "MY_ENV_VAR=Hello from env" >> $GITHUB_ENV
+
+      # Use environment variable
+      - name: Use environment variable
+        run: echo "Environment variable value: $MY_ENV_VAR"
+
+      # ::debug - write a debug message
+      - name: Debug message
+        run: echo "::debug::This is a debug message for troubleshooting"
+
+      # ::add-mask - mask sensitive value in logs
+      - name: Mask a secret
+        run: echo "::add-mask::super-secret-token"
+
+      # ::stop-commands - temporarily disable command processing
+      - name: Stop command processing
+        run: |
+          echo "::stop-commands::pause"
+          echo "This will not be interpreted as a command"
+          echo "::pause::"
+
+      # ::group / ::endgroup - group log output
+      - name: Grouped logs
+        run: |
+          echo "::group::Installing dependencies"
+          echo "npm install"
+          echo "::endgroup::"
